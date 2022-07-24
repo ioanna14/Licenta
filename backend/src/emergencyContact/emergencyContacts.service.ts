@@ -18,7 +18,7 @@ export class EmergencyContactsService {
         emergencyContact.phone = createEmergencyContactDto.phone;
         emergencyContact.email = createEmergencyContactDto.email;
         emergencyContact.address = createEmergencyContactDto.address;
-
+        // emergencyContact.user = ?
         return this.emergencyContactsRepository.save(emergencyContact);
     }
 

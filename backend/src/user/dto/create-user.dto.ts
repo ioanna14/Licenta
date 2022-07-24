@@ -1,4 +1,5 @@
 import {EmergencyContact} from "../../emergencyContact/emergencyContact.entity";
+import {License} from "../../license/license.entity";
 
 export class CreateUserDto {
     name: string;
@@ -8,7 +9,7 @@ export class CreateUserDto {
     address: string;
     birthDate: Date;
     userType: string;
-    licenseId: number;
+    license: License;
     emergencyContact: EmergencyContact;
     isActive: boolean;
 }

@@ -9,5 +9,5 @@ import {EmergencyContactsService} from './emergencyContacts.service';
     providers: [EmergencyContactsService],
     controllers: [EmergencyContactsController],
 })
-export class EmergencyContactsModule {
+export class EmergencyContactModule {
 }

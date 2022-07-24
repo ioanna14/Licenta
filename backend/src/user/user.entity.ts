@@ -1,5 +1,6 @@
 import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {EmergencyContact} from "../emergencyContact/emergencyContact.entity";
+import {License} from "../license/license.entity";
 
 @Entity()
 export class User {
@@ -27,8 +28,9 @@ export class User {
     @Column()
     userType: string;
 
-    @Column()
-    licenseId: number;
+    @OneToOne(() => License, license => license.user)
+    @JoinColumn()
+    license: License;
 
     @OneToOne(() => EmergencyContact, emergencyContact => emergencyContact.user)
     @JoinColumn()

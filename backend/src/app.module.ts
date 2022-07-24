@@ -3,7 +3,8 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {UsersModule} from "./user/user.module";
-import {EmergencyContactsModule} from "./emergencyContact/emergencyContact.module";
+import {EmergencyContactModule} from "./emergencyContact/emergencyContact.module";
+import {LicenseModule} from "./license/license.module";
 
 @Module({
     imports: [
@@ -19,7 +20,8 @@ import {EmergencyContactsModule} from "./emergencyContact/emergencyContact.modul
             synchronize: true,
         }),
         UsersModule,
-        EmergencyContactsModule
+        EmergencyContactModule,
+        LicenseModule
     ],
     controllers: [AppController],
     providers: [AppService],

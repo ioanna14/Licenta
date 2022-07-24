@@ -23,7 +23,7 @@ export class UsersService {
         user.address = createUserDto.address;
         user.birthDate = createUserDto.birthDate;
         user.userType = createUserDto.userType;
-        user.licenseId = createUserDto.licenseId;
+        user.license = createUserDto.license;
         user.emergencyContact = createUserDto.emergencyContact;
         user.isActive = createUserDto.isActive;
 
