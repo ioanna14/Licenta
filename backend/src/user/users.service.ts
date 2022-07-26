@@ -3,8 +3,6 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {CreateUserDto} from './dto/create-user.dto';
 import {User} from './user.entity';
-import {EmergencyContact} from "../emergencyContact/emergencyContact.entity";
-import {CreateEmergencyContactDto} from "../emergencyContact/dto/create-emergency-contact.dto";
 
 @Injectable()
 export class UsersService {
@@ -25,6 +23,7 @@ export class UsersService {
         user.userType = createUserDto.userType;
         user.license = createUserDto.license;
         user.emergencyContact = createUserDto.emergencyContact;
+        user.parachute = createUserDto.parachute;
         user.isActive = createUserDto.isActive;
 
         return this.usersRepository.save(user);

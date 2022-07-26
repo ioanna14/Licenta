@@ -1,5 +1,6 @@
 import {EmergencyContact} from "../../emergencyContact/emergencyContact.entity";
 import {License} from "../../license/license.entity";
+import {Parachute} from "../../parachute/parachute.entity";
 
 export class CreateUserDto {
     name: string;
@@ -11,5 +12,6 @@ export class CreateUserDto {
     userType: string;
     license: License;
     emergencyContact: EmergencyContact;
+    parachute: Parachute;
     isActive: boolean;
 }

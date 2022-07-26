@@ -5,6 +5,9 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {UsersModule} from "./user/user.module";
 import {EmergencyContactModule} from "./emergencyContact/emergencyContact.module";
 import {LicenseModule} from "./license/license.module";
+import {IncidentModule} from "./incident/incident.module";
+import {ParachuteModule} from "./parachute/parachute.module";
+import {FoldingModule} from "./folding/folding.module";
 
 @Module({
     imports: [
@@ -21,7 +24,10 @@ import {LicenseModule} from "./license/license.module";
         }),
         UsersModule,
         EmergencyContactModule,
-        LicenseModule
+        LicenseModule,
+        IncidentModule,
+        ParachuteModule,
+        FoldingModule
     ],
     controllers: [AppController],
     providers: [AppService],
