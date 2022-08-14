@@ -11,10 +11,4 @@ export class Incident {
 
     @Column()
     description: string;
-
-    // @ManyToOne(() => Jump, (jump) => jump.incidents)
-    // jump: Jump
-
-    @ManyToOne(() => User, (user) => user.incidents)
-    user: User
 }

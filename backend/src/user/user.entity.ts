@@ -1,8 +1,10 @@
-import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {EmergencyContact} from "../emergencyContact/emergencyContact.entity";
 import {License} from "../license/license.entity";
 import {Incident} from "../incident/incident.entity";
 import {Parachute} from "../parachute/parachute.entity";
+import {Jump} from "../jump/jump.entity";
+import {Dropzone} from "../dropzone/dropzone.entity";
 
 @Entity()
 export class User {
@@ -38,12 +40,12 @@ export class User {
     @JoinColumn()
     emergencyContact: EmergencyContact;
 
-    @OneToOne(() => Parachute, parachute => parachute.user)
-    @JoinColumn()
-    parachute: Parachute;
+    @OneToMany(() => Jump, (jump) => jump.user)
+    jumps: Jump[];
 
-    @OneToMany(() => Incident, (incident) => incident.user)
-    incidents: Incident[]
+    @ManyToMany(() => Dropzone, (dropzone) => dropzone.instructors)
+    @JoinTable()
+    dropzones: Dropzone[];
 
     @Column({default: true})
     isActive: boolean;

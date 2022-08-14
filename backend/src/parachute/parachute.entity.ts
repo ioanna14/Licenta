@@ -1,6 +1,8 @@
-import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {User} from "../user/user.entity";
 import {Folding} from "../folding/folding.entity";
+import {Jump} from "../jump/jump.entity";
+import {Dropzone} from "../dropzone/dropzone.entity";
 
 @Entity()
 export class Parachute {
@@ -15,11 +17,15 @@ export class Parachute {
 
     @OneToMany(() => Folding, (folding) => folding.parachute)
     @JoinColumn()
-    foldings: Folding[]
+    foldings: Folding[];
 
-    @OneToOne(() => User, (user) => user.parachute)
-    user: User
+    @OneToOne(() => User)
+    user: User;
 
-    // @ManyToOne(() => Dropzone, (dropzone) => dropzone.parachutes)
-    // dropzone: Dropzone
+    @OneToMany(() => Jump, (jump) => jump.parachute)
+    @JoinColumn()
+    jumps: Jump[];
+
+    @ManyToOne(() => Dropzone, (dropzone) => dropzone.parachutes)
+    dropzone: Dropzone;
 }

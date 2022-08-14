@@ -8,6 +8,10 @@ import {LicenseModule} from "./license/license.module";
 import {IncidentModule} from "./incident/incident.module";
 import {ParachuteModule} from "./parachute/parachute.module";
 import {FoldingModule} from "./folding/folding.module";
+import {JumpModule} from "./jump/jump.module";
+import {PlaneModule} from "./plane/plane.module";
+import {DropzoneModule} from "./dropzone/dropzone.module";
+import {AuthModule} from "./auth/auth.module";
 
 @Module({
     imports: [
@@ -27,7 +31,11 @@ import {FoldingModule} from "./folding/folding.module";
         LicenseModule,
         IncidentModule,
         ParachuteModule,
-        FoldingModule
+        FoldingModule,
+        JumpModule,
+        PlaneModule,
+        DropzoneModule,
+        AuthModule
     ],
     controllers: [AppController],
     providers: [AppService],
