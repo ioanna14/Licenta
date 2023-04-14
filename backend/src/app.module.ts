@@ -16,12 +16,12 @@ import {AuthModule} from "./auth/auth.module";
 @Module({
     imports: [
         TypeOrmModule.forRoot({
-            type: 'postgres',
-            host: 'solarecosystems.go.ro',
-            port: 5432,
+            type: 'mysql',
+            host: 'localhost',
+            port: 3306,
             username: 'ioana',
             password: 'marcar14',
-            database: 'skydive',
+            database: 'licenta',
             // entities: [],
             autoLoadEntities: true,
             synchronize: true,
