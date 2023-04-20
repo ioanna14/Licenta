@@ -1,0 +1,112 @@
+[
+  {
+    "title": "What are you using Go Skydiving for ?",
+    "options": [
+      {
+        "label": "",
+        "type": "dropdown",
+        "items": ["skydiver", "dropzone", "instructor"]
+      }
+    ]
+  },
+  {
+    "title": "License",
+    "options": [
+      {
+        "label": "ID",
+        "type": "text",
+        "placeholder": "XYZ1234567"
+      },
+      {
+        "label": "Category",
+        "type": "text",
+        "placeholder": "A"
+      },
+      {
+        "label": "Release Date",
+        "type": "date",
+        "placeholder": "14/05/2021"
+      },
+      {
+        "label": "Expiration Date",
+        "type": "date",
+        "placeholder": "14/02/2026"
+      }
+    ]
+  },
+  {
+    "title": "Emergency Contact",
+    "options": [
+      {
+        "label": "Full Name",
+        "type": "text",
+        "placeholder": "Ioana Pop"
+      },
+      {
+        "label": "Phone",
+        "type": "text",
+        "placeholder": "0123456789"
+      },
+      {
+        "label": "Email",
+        "type": "text",
+        "placeholder": "ioana@gmail.com"
+      },
+      {
+        "label": "Address",
+        "type": "text",
+        "placeholder": "Romania, Cluj-Napoca, street Brancusi, nr 33"
+      }
+    ]
+  },
+  {
+    "title": "Parachute",
+    "options": [
+      {
+        "label": "ID",
+        "type": "text",
+        "placeholder": "XYZ1234567"
+      },
+      {
+        "label": "Type",
+        "type": "text",
+        "placeholder": "Manta"
+      },
+      {
+        "label": "Folding",
+        "type": "file",
+        "placeholder": "Upload PDF"
+      },
+      {
+        "label": "Jump",
+        "type": "file",
+        "placeholder": "Upload PDF"
+      }
+    ]
+  },
+  {
+    "title": "Reserve Parachute",
+    "options": [
+      {
+        "label": "ID",
+        "type": "text",
+        "placeholder": "XYZ1234567"
+      },
+      {
+        "label": "Type",
+        "type": "text",
+        "placeholder": "Manta"
+      },
+      {
+        "label": "Folding",
+        "type": "file",
+        "placeholder": "Upload PDF"
+      },
+      {
+        "label": "Jump",
+        "type": "file",
+        "placeholder": "Upload PDF"
+      }
+    ]
+  }
+  ]

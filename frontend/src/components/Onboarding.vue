@@ -79,6 +79,11 @@ export default {
   components: {
     GoSkydivingLogo
   },
+  data() {
+    return {
+      firstForm: false,
+    }
+  },
   methods: {
     next(): void {
       console.log("nextt")

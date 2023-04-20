@@ -2,10 +2,12 @@
   <div class="login">
     <v-card-text class="login-container">
       <go-skydiving-logo class="mt-10"/>
-      <v-card-title class="mt-5 mb-10">LOGIN</v-card-title>
+      <v-card-title class="mt-5" :class="{'mb-0': error, ' mb-10': !error}">LOGIN</v-card-title>
+      <v-card-text class="pa-0 login-form__error mb-5" v-if="error">{{error}}</v-card-text>
       <v-form class="login-form" @submit.prevent="login">
         <v-label>Email</v-label>
         <v-text-field
+          v-model="email"
           name="email"
           placeholder="email@adress.com"
           type="text"
@@ -13,6 +15,7 @@
         ></v-text-field>
         <v-label>Password</v-label>
         <v-text-field
+          v-model="password"
           id="password"
           name="password"
           placeholder="passWord123!"
@@ -31,20 +34,44 @@
 <script lang="ts">
 
 import GoSkydivingLogo from "@/icons/GoSkydivingLogo.vue";
-export default {
+import {defineComponent} from "vue";
+
+import {validateEmail, validatePassword} from "@/helpers/validators";
+import axios from "axios";
+import { server } from "@/consts/appConsts";
+import router from "@/router";
+export default defineComponent({
   name: "Login",
   components: {
     GoSkydivingLogo
   },
+  data() {
+    return {
+      email: "",
+      password: "",
+      error: "",
+    }
+  },
   methods: {
     login(): void {
-      console.log("login")
+      if (validateEmail(this.email) && validatePassword(this.password)) {
+        const data = {email: this.email, password: this.password};
+        axios.post(`${server.baseURL}/login`, data).then(response => {
+          if (response && response.data.success) {
+            router.push("/");
+          } else {
+            this.error = response.data.error;
+          }
+        });
+      } else {
+        this.error = "Invalid email or password!";
+      }
     },
     forgotPassword(): void {
       console.log("forgot password");
     }
   }
-}
+});
 </script>
 
 <style  lang="scss">
@@ -70,6 +97,11 @@ export default {
       display: flex;
       margin: auto;
       height: 56px !important;
+    }
+
+    &__error {
+      color: red;
+      max-height: 20px;
     }
 
     &__subtitle{

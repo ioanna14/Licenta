@@ -19,9 +19,18 @@ export class AuthService {
     }
 
     async login(user: any) {
-        const payload = { email: user.email, sub: user.userId };
-        return {
-            access_token: this.jwtService.sign(payload),
-        };
+        const validation = await this.validateUser(user.email, user.password);
+        if (validation) {
+            const payload = { email: user.email, sub: user.userId };
+            return {
+                success: true,
+                access_token: this.jwtService.sign(payload),
+            };
+        } else  {
+            return {
+                success: false,
+                error: "Wrong email or password!"
+            }
+        }
     }
 }
