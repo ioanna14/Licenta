@@ -11,25 +11,25 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({default: null})
     name: string;
 
-    @Column()
+    @Column({default: null})
     phone: string;
 
-    @Column()
+    @Column({default: null})
     email: string;
 
-    @Column()
+    @Column({default: null})
     password: string;
 
-    @Column()
+    @Column({default: null})
     address: string;
 
-    @Column()
+    @Column({default: null})
     birthDate: Date;
 
-    @Column()
+    @Column({default: null})
     userType: string;
 
     @OneToOne(() => License, license => license.user)

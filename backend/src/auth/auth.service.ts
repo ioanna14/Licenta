@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../user/users.service';
 import {JwtService} from "@nestjs/jwt";
+import {CreateUserDto} from "../user/dto/create-user.dto";
 
 @Injectable()
 export class AuthService {
@@ -32,5 +33,13 @@ export class AuthService {
                 error: "Wrong email or password!"
             }
         }
+    }
+
+    async register(payload: any) {
+        const user = { email: payload.body.email, password: payload.body.password};
+        return {
+            success: true,
+            access_token: this.usersService.create(new CreateUserDto(user.email, user.password)),
+        };
     }
 }

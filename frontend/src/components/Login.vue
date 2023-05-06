@@ -102,6 +102,10 @@ export default defineComponent({
     &__error {
       color: red;
       max-height: 20px;
+      background: mistyrose;
+      border-radius: 4px;
+      padding: 0 4px !important;
+      opacity: 0.8;
     }
 
     &__subtitle{

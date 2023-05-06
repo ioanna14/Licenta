@@ -27,17 +27,9 @@ export class UsersService {
 
     create(createUserDto: CreateUserDto): Promise<User> {
         const user = new User();
-        user.name = createUserDto.name;
-        user.phone = createUserDto.phone;
         user.email = createUserDto.email;
         user.password = createUserDto.password;
-        user.address = createUserDto.address;
-        user.birthDate = createUserDto.birthDate;
-        user.userType = createUserDto.userType;
-        user.license = createUserDto.license;
-        user.emergencyContact = createUserDto.emergencyContact;
-        user.isActive = createUserDto.isActive;
-
+        user.isActive = true;
         return this.usersRepository.save(user);
     }
 
