@@ -1,5 +1,6 @@
 export class CreateLicenseDto {
-    category: string;
-    releaseDate: Date;
-    expirationDate: Date;
+  identifier: string;
+  category: string;
+  releaseDate: Date;
+  expirationDate: Date;
 }

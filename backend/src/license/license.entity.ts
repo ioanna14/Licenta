@@ -1,20 +1,19 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {User} from "../user/user.entity";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class License {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    category: string;
+  @Column()
+  identifier: string;
 
-    @Column()
-    releaseDate: Date;
+  @Column()
+  category: string;
 
-    @Column()
-    expirationDate: Date;
+  @Column()
+  releaseDate: Date;
 
-    @OneToOne(() => User, user => user.emergencyContact)
-    user: User;
+  @Column()
+  expirationDate: Date;
 }

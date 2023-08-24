@@ -1,23 +1,19 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {User} from "../user/user.entity";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class EmergencyContact {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    phone: string;
+  @Column()
+  phone: string;
 
-    @Column()
-    email: string;
+  @Column()
+  email: string;
 
-    @Column()
-    address: string;
-
-    @OneToOne(() => User, user => user.emergencyContact)
-    user: User;
+  @Column()
+  address: string;
 }

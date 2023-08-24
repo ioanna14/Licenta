@@ -1,36 +1,58 @@
-import {Injectable} from '@nestjs/common';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
-import {CreateEmergencyContactDto} from './dto/create-emergency-contact.dto';
-import {EmergencyContact} from './emergencyContact.entity';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateEmergencyContactDto } from './dto/create-emergency-contact.dto';
+import { EmergencyContact } from './emergencyContact.entity';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class EmergencyContactsService {
-    constructor(
-        @InjectRepository(EmergencyContact)
-        private readonly emergencyContactsRepository: Repository<EmergencyContact>,
-    ) {
-    }
+  constructor(
+    @InjectRepository(EmergencyContact)
+    private readonly emergencyContactsRepository: Repository<EmergencyContact>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-    create(createEmergencyContactDto: CreateEmergencyContactDto): Promise<EmergencyContact> {
-        const emergencyContact = new EmergencyContact();
-        emergencyContact.name = createEmergencyContactDto.name;
-        emergencyContact.phone = createEmergencyContactDto.phone;
-        emergencyContact.email = createEmergencyContactDto.email;
-        emergencyContact.address = createEmergencyContactDto.address;
-        // emergencyContact.user = ?
-        return this.emergencyContactsRepository.save(emergencyContact);
-    }
+  async create(
+    userId: number,
+    createEmergencyContactDto: CreateEmergencyContactDto,
+  ): Promise<any> {
+    const emergencyContact = new EmergencyContact();
+    emergencyContact.name = createEmergencyContactDto.name;
+    emergencyContact.phone = createEmergencyContactDto.phone;
+    emergencyContact.email = createEmergencyContactDto.email;
+    emergencyContact.address = createEmergencyContactDto.address;
 
-    async findAll(): Promise<EmergencyContact[]> {
-        return this.emergencyContactsRepository.find();
+    try {
+      await this.emergencyContactsRepository
+        .save(emergencyContact)
+        .then((emergencyContact) => {
+          const user = new User();
+          user.emergencyContact = emergencyContact;
+          this.userRepository.update(userId, user);
+        });
+      return {
+        success: true,
+        message: 'General data added!',
+      };
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
     }
+  }
 
-    findOne(id: number): Promise<EmergencyContact> {
-        return this.emergencyContactsRepository.findOneBy({id: id});
-    }
+  async findAll(): Promise<EmergencyContact[]> {
+    return this.emergencyContactsRepository.find();
+  }
 
-    async remove(id: string): Promise<void> {
-        await this.emergencyContactsRepository.delete(id);
-    }
+  findOne(id: number): Promise<EmergencyContact> {
+    return this.emergencyContactsRepository.findOneBy({ id: id });
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.emergencyContactsRepository.delete(id);
+  }
 }

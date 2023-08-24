@@ -20,7 +20,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <v-app-bar class="header-bar" color="#76BAF9" height="60">
+  <v-app-bar class="header-bar" color="#52b3d9" height="60">
     <go-skydiving-logo class="header-bar__icon"/>
     <div class="header-bar__sections">
       <v-app-bar-title class="header-bar__sections-title" v-for="item in headerBarItems" @click="goToPage(item.link)">{{ item.title }}</v-app-bar-title>
@@ -29,6 +29,10 @@ export default defineComponent({
 </template>
 
 <style scoped lang="scss">
+.go-skydiving-icon {
+  width: 50px !important;
+  height: 50px !important;
+}
 .header-bar {
   &__icon {
     margin-left: 20%;
@@ -48,7 +52,7 @@ export default defineComponent({
       margin-left: 0;
       text-align: center;
       font-family: "Comic Sans MS",sans-serif;
-      color: whitesmoke;
+      color: #eeeeee;
     }
   }
 }

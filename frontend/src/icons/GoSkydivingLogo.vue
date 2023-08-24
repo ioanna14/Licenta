@@ -20,7 +20,7 @@ export default {
 
 <style lang="scss">
 .go-skydiving-icon {
-  width: 100px;
-  height: 100px;
+  width: 100px !important;
+  height: 100px !important;
 }
 </style>

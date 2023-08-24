@@ -85,7 +85,7 @@ export default defineComponent({
   height: 100%;
 
   &-container {
-    background: #76BAF9;
+    background: #52b3d9;
     display: flex;
     flex-direction: column;
     align-items: center;

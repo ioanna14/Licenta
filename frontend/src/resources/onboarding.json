@@ -1,8 +1,10 @@
 [
   {
     "title": "What are you using Go Skydiving for ?",
+    "request": "add-user-type",
     "options": [
       {
+        "name": "userType",
         "label": "",
         "type": "dropdown",
         "items": ["skydiver", "dropzone", "instructor"]
@@ -11,23 +13,28 @@
   },
   {
     "title": "License",
+    "request": "add-license",
     "options": [
       {
+        "name": "identifier",
         "label": "ID",
         "type": "text",
         "placeholder": "XYZ1234567"
       },
       {
+        "name": "category",
         "label": "Category",
         "type": "text",
         "placeholder": "A"
       },
       {
+        "name": "releaseDate",
         "label": "Release Date",
         "type": "date",
         "placeholder": "14/05/2021"
       },
       {
+        "name": "expirationDate",
         "label": "Expiration Date",
         "type": "date",
         "placeholder": "14/02/2026"
@@ -36,23 +43,28 @@
   },
   {
     "title": "Emergency Contact",
+    "request": "add-emergency-contact",
     "options": [
       {
+        "name": "name",
         "label": "Full Name",
         "type": "text",
         "placeholder": "Ioana Pop"
       },
       {
+        "name": "phone",
         "label": "Phone",
         "type": "text",
         "placeholder": "0123456789"
       },
       {
+        "name": "email",
         "label": "Email",
         "type": "text",
         "placeholder": "ioana@gmail.com"
       },
       {
+        "name": "address",
         "label": "Address",
         "type": "text",
         "placeholder": "Romania, Cluj-Napoca, street Brancusi, nr 33"
@@ -61,23 +73,28 @@
   },
   {
     "title": "Parachute",
+    "request": "add-parachute",
     "options": [
       {
+        "name": "parachuteId",
         "label": "ID",
         "type": "text",
         "placeholder": "XYZ1234567"
       },
       {
+        "name": "parachuteType",
         "label": "Type",
         "type": "text",
         "placeholder": "Manta"
       },
       {
+        "name": "parachuteFolding",
         "label": "Folding",
         "type": "file",
         "placeholder": "Upload PDF"
       },
       {
+        "name": "parachuteJumps",
         "label": "Jump",
         "type": "file",
         "placeholder": "Upload PDF"
@@ -86,23 +103,28 @@
   },
   {
     "title": "Reserve Parachute",
+    "request": "add-reserve-parachute",
     "options": [
       {
+        "name": "reserveParachuteId",
         "label": "ID",
         "type": "text",
         "placeholder": "XYZ1234567"
       },
       {
+        "name": "reserveParachuteType",
         "label": "Type",
         "type": "text",
         "placeholder": "Manta"
       },
       {
+        "name": "reserveParachuteFolding",
         "label": "Folding",
         "type": "file",
         "placeholder": "Upload PDF"
       },
       {
+        "name": "reserveParachuteJumps",
         "label": "Jump",
         "type": "file",
         "placeholder": "Upload PDF"
