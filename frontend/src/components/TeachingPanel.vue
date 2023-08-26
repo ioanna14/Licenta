@@ -36,7 +36,6 @@ export default defineComponent({
   height: 100%;
   width: 100%;
   overflow: auto;
-  border: 1px solid lightgrey;
   background-color: #eeeeee;
 }
 
@@ -45,6 +44,7 @@ export default defineComponent({
   max-width: 700px;
   overflow: auto;
   margin: auto;
+  background-color:	#F8F8FF;
 }
 
 </style>

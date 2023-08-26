@@ -64,6 +64,7 @@ export default defineComponent({
         const data = {email: this.email, password: this.password};
         axios.post(`${server.baseURL}/register`, data).then(response => {
           if (response && response.data.success) {
+            document.cookie="key=" + response.data.access_token;
             router.push("/onboarding");
           } else {
             this.error = response.data.error;

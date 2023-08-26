@@ -14,6 +14,7 @@ import { Incident } from '../incident/incident.entity';
 import { Parachute } from '../parachute/parachute.entity';
 import { Jump } from '../jump/jump.entity';
 import { Dropzone } from '../dropzone/dropzone.entity';
+import { Event } from '../event/event.entity';
 
 @Entity()
 export class User {
@@ -55,6 +56,10 @@ export class User {
   @ManyToMany(() => Dropzone, (dropzone) => dropzone.instructors)
   @JoinTable()
   dropzones: Dropzone[];
+
+  @ManyToMany(() => Event, (event) => event.participants)
+  @JoinTable()
+  events: Event[];
 
   @Column({ default: true })
   isActive: boolean;

@@ -16,7 +16,7 @@ export class LicensesController {
   constructor(private readonly licensesService: LicensesService) {}
 
   @Post('/add-license')
-  async create(@Body() createLicenseDto: CreateLicenseDto): Promise<any> {
+  create(@Body() createLicenseDto: CreateLicenseDto): Promise<any> {
     return this.licensesService.create(1, createLicenseDto);
   }
 

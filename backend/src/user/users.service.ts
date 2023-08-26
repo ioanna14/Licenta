@@ -40,10 +40,8 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id: id });
   }
 
-  async findOneByEmail(
-    email: string,
-  ): Promise<{ password: string; userId: number; email: string }> {
-    return this.users.find((user) => user.email === email);
+  async findOneByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ email: email });
   }
 
   async remove(id: string) {

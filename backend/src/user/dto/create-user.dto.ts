@@ -1,6 +1,7 @@
 import { EmergencyContact } from '../../emergencyContact/emergencyContact.entity';
 import { License } from '../../license/license.entity';
 import { Parachute } from '../../parachute/parachute.entity';
+import { Event } from '../../event/event.entity';
 
 export class CreateUserDto {
   constructor(
@@ -11,6 +12,7 @@ export class CreateUserDto {
     address?: string,
     birthDate?: Date,
     userType?: string,
+    events?: Event[],
     license?: License,
     emergencyContact?: EmergencyContact,
     parachute?: Parachute,
@@ -23,6 +25,7 @@ export class CreateUserDto {
     this.address = address ? address : null;
     this.birthDate = birthDate ? birthDate : null;
     this.userType = userType ? userType : null;
+    this.events = events ? events : null;
     this.license = license ? license : null;
     this.emergencyContact = emergencyContact ? emergencyContact : null;
     this.parachute = parachute ? parachute : null;
@@ -35,6 +38,7 @@ export class CreateUserDto {
   address?: string;
   birthDate?: Date;
   userType?: string;
+  events?: Event[];
   license?: License;
   emergencyContact?: EmergencyContact;
   parachute?: Parachute;

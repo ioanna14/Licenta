@@ -50,7 +50,16 @@ export default defineComponent({
       error: "",
     };
   },
+  mounted() {
+    this.setAuthorizationKey();
+  },
   methods: {
+    setAuthorizationKey() : void {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; key=`);
+      const key = parts?.pop()?.split(';').shift();
+      axios.defaults.headers.common['Authorization'] =  "Bearer " + key;
+    },
     next(): void {
       this.currentFormIndex = this.currentFormIndex + 1;
       axios.post(`${server.baseURL}/${this.currentForm.request}`, this.answers).then(response => {

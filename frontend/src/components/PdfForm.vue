@@ -142,6 +142,7 @@ export default defineComponent({
 .briefing-card {
   width: 80%;
   margin: auto;
+  background-color:	#F8F8FF;
 
   &__category {
     width: 100%;

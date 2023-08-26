@@ -1,7 +1,6 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {User} from "../user/user.entity";
 import {Parachute} from "../parachute/parachute.entity";
-import {Plane} from "../plane/plane.entity";
 
 @Entity()
 export class Jump {
@@ -26,7 +25,4 @@ export class Jump {
 
     @ManyToOne(() => Parachute)
     parachute: Parachute;
-
-    @ManyToOne(() => Plane)
-    plane: Plane;
 }

@@ -1,6 +1,5 @@
 import {Column, Entity, JoinColumn, ManyToMany, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {User} from "../user/user.entity";
-import {Plane} from "../plane/plane.entity";
 import {Folding} from "../folding/folding.entity";
 import {Parachute} from "../parachute/parachute.entity";
 
@@ -20,9 +19,6 @@ export class Dropzone {
 
     @ManyToMany(() => User, (pilot) => pilot.dropzones)
     pilots: User[];
-
-    @ManyToMany(() => Plane, (plane) => plane.dropzones)
-    planes: Plane[];
 
     @OneToMany(() => Parachute, (parachute) => parachute.dropzone)
     @JoinColumn()

@@ -8,7 +8,12 @@ export default defineComponent({
   components: {GoSkydivingLogo},
   data () {
     return {
-      headerBarItems: [{ title: "home", link: "/"}, { title: "teaching", link: "/teaching"}, { title: "events", link: "/events"}, { title: "blabla", link: "/blabla"}, {title: "my profile", link: "/profile"}],
+      headerBarItems: [
+        { title: "home", link: "/"},
+        { title: "teaching", link: "/teaching"},
+        { title: "events", link: "/events"},
+        {title: "my profile", link: "/profile"}
+      ],
     }
   },
   methods: {

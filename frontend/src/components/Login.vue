@@ -40,6 +40,7 @@ import {validateEmail, validatePassword} from "@/helpers/validators";
 import axios from "axios";
 import { server } from "@/consts/appConsts";
 import router from "@/router";
+import {setAxiosHeader} from "@/helpers/userSession";
 export default defineComponent({
   name: "Login",
   components: {
@@ -58,6 +59,7 @@ export default defineComponent({
         const data = {email: this.email, password: this.password};
         axios.post(`${server.baseURL}/login`, data).then(response => {
           if (response && response.data.success) {
+            document.cookie="key=" + response.data.access_token;
             router.push("/");
           } else {
             this.error = response.data.error;

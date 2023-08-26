@@ -13,9 +13,10 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByEmail(username);
+
     const isMatch = await bcrypt.compare(pass, user.password);
     if (user && isMatch) {
-      const { password, ...result } = user;
+      const { ...result } = user;
       return result;
     }
     return null;
@@ -39,15 +40,21 @@ export class AuthService {
 
   async register(payload: any) {
     const salt = await bcrypt.genSalt();
-    const password = payload.body.password;
+    const password = payload.password;
     const hashPassword = await bcrypt.hash(password, salt);
 
-    const user = { email: payload.body.email, password: hashPassword };
+    const user = { email: payload.email, password: hashPassword };
+
+    const createdUser = await this.usersService.create(
+      new CreateUserDto(user.email, user.password),
+    );
+
     return {
       success: true,
-      access_token: this.usersService.create(
-        new CreateUserDto(user.email, user.password),
-      ),
+      access_token: this.jwtService.sign({
+        email: createdUser.email,
+        password: createdUser.password,
+      }),
     };
   }
 }

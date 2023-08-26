@@ -11,7 +11,6 @@ import 'vuetify/styles'
 // Composables
 import { createVuetify } from 'vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
-import GoSkydivingLogo from "@/icons/GoSkydivingLogo.vue";
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
@@ -30,7 +29,6 @@ export default createVuetify({
     aliases,
     sets: {
       mdi,
-      goSkydivingLogo: GoSkydivingLogo,
     },
   },
 })

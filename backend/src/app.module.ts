@@ -9,8 +9,8 @@ import { IncidentModule } from './incident/incident.module';
 import { ParachuteModule } from './parachute/parachute.module';
 import { FoldingModule } from './folding/folding.module';
 import { JumpModule } from './jump/jump.module';
-import { PlaneModule } from './plane/plane.module';
 import { DropzoneModule } from './dropzone/dropzone.module';
+import { EventModule } from './event/event.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -26,6 +26,7 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    AuthModule,
     UsersModule,
     EmergencyContactModule,
     LicenseModule,
@@ -33,9 +34,8 @@ import { AuthModule } from './auth/auth.module';
     ParachuteModule,
     FoldingModule,
     JumpModule,
-    PlaneModule,
     DropzoneModule,
-    AuthModule,
+    EventModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -10,6 +10,8 @@ import App from './App.vue'
 // Composables
 import { createApp } from 'vue'
 
+import '@mdi/font/css/materialdesignicons.css'
+
 // Plugins
 import { registerPlugins } from '@/plugins'
 
