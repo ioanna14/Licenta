@@ -4,7 +4,7 @@
       <go-skydiving-logo class="mt-10"/>
       <v-card-title class="mt-5" :class="{'mb-10': currentFormIndex !== 0 && !error, 'mb-0': error}">{{currentForm.title}}</v-card-title>
       <v-card-text class="pa-0 onboarding-form__error mb-5" v-if="error">{{error}}</v-card-text>
-      <v-form class="onboarding-form" @submit.prevent="next">
+      <v-form class="onboarding-form">
         <div v-for="item in currentForm.options" class="onboarding-form__item">
           <v-label>{{ item.label }}</v-label>
           <v-select
@@ -14,6 +14,11 @@
             :items="item.items"
             v-model="answers[item.name]"
           ></v-select>
+          <v-file-input
+            v-else-if="item.type === 'file'"
+            :placeholder="item.placeholder"
+            v-model="answers[item.name]"
+          ></v-file-input>
           <v-text-field
             v-else
             :placeholder="item.placeholder"
@@ -36,6 +41,7 @@ import {defineComponent} from "vue";
 import router from "@/router";
 import axios from "axios";
 import {server} from "@/consts/appConsts";
+import Tesseract from "tesseract.js";
 
 export default defineComponent({
   name: "OnboardingSkydiver",
@@ -46,34 +52,67 @@ export default defineComponent({
     return {
       currentForm: onboardingSkydiverForm[0],
       currentFormIndex: 0,
-      answers: {},
+      answers: {} as any,
       error: "",
+      userId: 0,
     };
   },
   mounted() {
     this.setAuthorizationKey();
+    this.setUserId()
   },
   methods: {
     setAuthorizationKey() : void {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; key=`);
       const key = parts?.pop()?.split(';').shift();
-      axios.defaults.headers.common['Authorization'] =  "Bearer " + key;
+      if (key) {
+        axios.defaults.headers.common['Authorization'] =  "Bearer " + key;
+      } else {
+        router.push("/login");
+      }
+    },
+    setUserId() : void {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; user_id=`);
+      const key = parts?.pop()?.split(';').shift();
+      if (key) {
+        this.userId = +key;
+      } else {
+        router.push("/login");
+      }
     },
     next(): void {
       this.currentFormIndex = this.currentFormIndex + 1;
+      // let foldings = null;
+      // if (this.answers && this.answers.parachuteFolding) {
+      //   foldings = this.performOcr(this.answers.parachuteFolding);
+      // }
+      this.answers['userId'] =this.userId;
       axios.post(`${server.baseURL}/${this.currentForm.request}`, this.answers).then(response => {
+        console.log("response", response.data);
         if (response && response.data.success) {
           if (this.currentFormIndex < 5) {
             this.currentForm = onboardingSkydiverForm[this.currentFormIndex];
             this.answers = {};
           } else {
+            console.log("nu ajunge aici???");
             router.push("/");
           }
         } else {
           this.error = response.data.error;
         }
       });
+    },
+    async performOcr(imagePath: File): Promise<string> {
+      const result = await Tesseract.recognize(
+        imagePath,
+        'eng', // Language code for English
+        {
+          logger: (info) => console.log(info),
+        },
+      );
+      return result.data.text;
     }
   },
 });
@@ -122,6 +161,10 @@ export default defineComponent({
       background: white;
       border-radius: 4px;
     }
+  }
+
+  .v-field.v-field--appended {
+    background: white;
   }
 }
 </style>

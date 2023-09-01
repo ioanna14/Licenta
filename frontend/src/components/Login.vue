@@ -59,7 +59,12 @@ export default defineComponent({
         const data = {email: this.email, password: this.password};
         axios.post(`${server.baseURL}/login`, data).then(response => {
           if (response && response.data.success) {
-            document.cookie="key=" + response.data.access_token;
+            if (response.data.access_token) {
+              document.cookie="key=" + response.data.access_token;
+            }
+            if (response.data.user_id) {
+              document.cookie="user_id=" + response.data.user_id;
+            }
             router.push("/");
           } else {
             this.error = response.data.error;

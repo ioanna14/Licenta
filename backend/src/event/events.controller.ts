@@ -1,14 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Post,
-} from '@nestjs/common';
+import {Body, Controller, Get, Param, ParseIntPipe, Post} from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
-import { Event } from './event.entity';
 import { EventsService } from './events.service';
 
 @Controller()
@@ -21,8 +12,8 @@ export class EventsController {
   }
 
   @Post('/add-participant-to-event')
-  addParticipant(@Body() userId: number, eventId: number): Promise<any> {
-    return this.eventsService.addParticipant(userId, eventId);
+  addParticipant(@Body() data): Promise<any> {
+    return this.eventsService.addParticipant(data.userId, data.eventId);
   }
 
   @Get('/get-events/all')
@@ -30,13 +21,8 @@ export class EventsController {
     return this.eventsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<Event> {
-    return this.eventsService.findOne(id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.eventsService.remove(id);
+  @Get('/get-events/:id')
+  findAllForUser(@Param('id', ParseIntPipe) id: number): Promise<any> {
+    return this.eventsService.findAllForUser(id);
   }
 }

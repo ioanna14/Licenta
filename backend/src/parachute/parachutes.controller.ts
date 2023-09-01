@@ -1,38 +1,36 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    ParseIntPipe,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  ParseIntPipe,
 } from '@nestjs/common';
-import {CreateParachuteDto} from './dto/create-parachute.dto';
-import {Parachute} from './parachute.entity';
-import {ParachutesService} from './parachutes.service';
+import { CreateParachuteDto } from './dto/create-parachute.dto';
+import { Parachute } from './parachute.entity';
+import { ParachutesService } from './parachutes.service';
 
-@Controller('parachutes')
+@Controller('')
 export class ParachutesController {
-    constructor(private readonly parachutesService: ParachutesService) {
-    }
+  constructor(private readonly parachutesService: ParachutesService) {}
 
-    @Post()
-    create(@Body() createParachuteDto: CreateParachuteDto): Promise<Parachute> {
-        return this.parachutesService.create(createParachuteDto);
-    }
+  @Post('/add-parachute')
+  create(@Body() createParachuteDto: CreateParachuteDto) {
+    const newDto = createParachuteDto;
+    newDto.isReserve = false;
+    return this.parachutesService.create(newDto);
+  }
 
-    @Get()
-    findAll(): Promise<Parachute[]> {
-        return this.parachutesService.findAll();
-    }
+  @Post('/add-reserve-parachute')
+  createReserve(@Body() createParachuteDto: CreateParachuteDto) {
+    const newDto = createParachuteDto;
+    newDto.isReserve = true;
+    return this.parachutesService.create(newDto);
+  }
 
-    @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number): Promise<Parachute> {
-        return this.parachutesService.findOne(id);
-    }
-
-    @Delete(':id')
-    remove(@Param('id') id: string): Promise<void> {
-        return this.parachutesService.remove(id);
-    }
+  @Get('/get-parachutes/:id')
+  findAll(@Param('id', ParseIntPipe) id: number): Promise<Parachute[]> {
+    return this.parachutesService.findParachutes(id);
+  }
 }

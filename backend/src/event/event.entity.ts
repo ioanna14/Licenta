@@ -30,7 +30,21 @@ export class Event {
   @Column()
   image: string;
 
-  @ManyToMany(() => User, (user) => user.events)
-  @JoinTable()
-  participants: User[];
+  @ManyToMany(
+    () => User,
+    (user) => user.events, //optional
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  @JoinTable({
+    name: 'event_user',
+    joinColumn: {
+      name: 'eventId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+    },
+  })
+  users?: User[];
 }

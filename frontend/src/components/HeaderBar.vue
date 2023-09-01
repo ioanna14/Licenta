@@ -12,7 +12,7 @@ export default defineComponent({
         { title: "home", link: "/"},
         { title: "teaching", link: "/teaching"},
         { title: "events", link: "/events"},
-        {title: "my profile", link: "/profile"}
+        {title: "profile", link: "/profile"}
       ],
     }
   },

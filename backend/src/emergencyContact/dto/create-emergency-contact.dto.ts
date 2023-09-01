@@ -3,4 +3,5 @@ export class CreateEmergencyContactDto {
   phone: string;
   email: string;
   address: string;
+  userId: number;
 }

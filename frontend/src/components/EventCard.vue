@@ -1,23 +1,50 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
+import axios from "axios";
+import {server} from "@/consts/appConsts";
+import router from "@/router";
 
 export default defineComponent({
   name: "EventCard",
   props: {
+    id: Number,
     title: String,
     description: String,
     date: String,
     price: Number,
     image: null,
-    location: String
+    location: String,
+    canJoin: Boolean,
   },
   data () {
     return {
       defaultImage: "https://skydivebuckeye.com/wp-content/uploads/elementor/thumbs/IMG_2879-q8txhxskh4eurujj966yjecyaar2br2zftbc05jhc8.jpg",
-      selectedFile: null
+      selectedFile: null,
+      userId: 0,
     }
   },
-  methods: {}
+  mounted() {
+    this.setUserId();
+  },
+  methods: {
+    setUserId() : void {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; user_id=`);
+      const key = parts?.pop()?.split(';').shift();
+      if (key) {
+        this.userId = +key;
+      } else {
+        router.push("/login");
+      }
+    },
+    joinEvent(): void {
+      axios.post(`${server.baseURL}/add-participant-to-event`, {userId: this.userId, eventId: this.id}).then(response => {
+        if (response && response.data.success) {
+          this.$emit("joinedEvent", response.data.message);
+        }
+      });
+    }
+  }
 })
 </script>
 
@@ -31,7 +58,7 @@ export default defineComponent({
         <v-card-text class="pl-0">{{ description }}</v-card-text>
       </div>
       <div class="mt-5 mr-5 event-card__details-right">
-        <v-btn class="event-card__btn justify-center" color="#52b3d9">Join</v-btn>
+        <v-btn :v-if="this.canJoin" class="event-card__btn justify-center" color="#52b3d9" @click="joinEvent()">Join</v-btn>
         <v-card-text class="pa-0 pt-4">from <b>$ {{ price }}</b></v-card-text>
         <v-card-subtitle class="pa-0 pt-4 pb-4"><v-icon icon="mdi-map-marker-outline"></v-icon> {{ location }}</v-card-subtitle>
       </div>

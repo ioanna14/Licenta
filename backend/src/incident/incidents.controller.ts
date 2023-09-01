@@ -1,38 +1,18 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    ParseIntPipe,
-} from '@nestjs/common';
-import {CreateIncidentDto} from './dto/create-incident.dto';
-import {Incident} from './incident.entity';
-import {IncidentsService} from './incidents.service';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { CreateIncidentDto } from './dto/create-incident.dto';
+import { IncidentsService } from './incidents.service';
 
-@Controller('incidents')
+@Controller()
 export class IncidentsController {
-    constructor(private readonly incidentsService: IncidentsService) {
-    }
+  constructor(private readonly incidentsService: IncidentsService) {}
 
-    @Post()
-    create(@Body() createIncidentDto: CreateIncidentDto): Promise<Incident> {
-        return this.incidentsService.create(createIncidentDto);
-    }
+  @Post('/add-incident')
+  async create(@Body() createIncidentDto: CreateIncidentDto): Promise<any> {
+    return await this.incidentsService.create(createIncidentDto);
+  }
 
-    @Get()
-    findAll(): Promise<Incident[]> {
-        return this.incidentsService.findAll();
-    }
-
-    @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number): Promise<Incident> {
-        return this.incidentsService.findOne(id);
-    }
-
-    @Delete(':id')
-    remove(@Param('id') id: string): Promise<void> {
-        return this.incidentsService.remove(id);
-    }
+  @Get('/get-incidents/all')
+  async findAll(): Promise<any> {
+    return await this.incidentsService.findAll();
+  }
 }

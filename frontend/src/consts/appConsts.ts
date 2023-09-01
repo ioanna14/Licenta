@@ -1,3 +1,3 @@
 export const server = {
-  baseURL: 'http://127.0.0.1:3002'
+  baseURL: 'http://localhost:3003'
 };

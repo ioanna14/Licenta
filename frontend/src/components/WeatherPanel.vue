@@ -15,7 +15,6 @@ export default defineComponent({
   },
   methods: {
     updateWeatherData(event: any) {
-      console.log("sdhjsd", event[0])
       return this.weatherData = event[0];
     },
     getAdjustedTime() {
@@ -41,10 +40,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .weather-panel {
-  max-width: 300px;
+  max-width: 400px;
   max-height: 300px;
   width: 100%;
   overflow: auto;
   border: 1px solid lightgrey;
+  background-color: #F8F8FF;
 }
 </style>

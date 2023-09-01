@@ -14,7 +14,7 @@ export class LicensesService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(userId, createLicenseDto: CreateLicenseDto): Promise<any> {
+  async create(createLicenseDto: CreateLicenseDto): Promise<any> {
     const license = new License();
     license.identifier = createLicenseDto.identifier;
     license.category = createLicenseDto.category;
@@ -24,7 +24,7 @@ export class LicensesService {
       await this.licensesRepository.save(license).then((license) => {
         const user = new User();
         user.license = license;
-        this.userRepository.update(userId, user);
+        this.userRepository.update(createLicenseDto.userId, user);
       });
       return {
         success: true,

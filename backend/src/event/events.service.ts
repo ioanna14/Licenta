@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Event } from './event.entity';
 import { CreateEventDto } from './dto/create-event.dto';
 import { User } from '../user/user.entity';
+import { EventUser } from './event.user.entity';
 
 @Injectable()
 export class EventsService {
@@ -12,6 +13,8 @@ export class EventsService {
     private readonly eventsRepository: Repository<Event>,
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    @InjectRepository(EventUser)
+    private readonly eventUserRepository: Repository<EventUser>,
   ) {}
 
   async create(createEventDto: CreateEventDto): Promise<any> {
@@ -39,14 +42,14 @@ export class EventsService {
   }
 
   async addParticipant(userId: number, eventId: number): Promise<any> {
-    const event = new Event();
-    const user = await this.usersRepository.findOneBy({ id: userId });
-    event.participants.push(user);
     try {
-      await this.eventsRepository.update(eventId, event);
+      await this.eventUserRepository.save({
+        eventId: eventId,
+        userId: userId,
+      });
       return {
         success: true,
-        message: 'General data added!',
+        message: 'Participant joined!',
       };
     } catch (err) {
       return {
@@ -60,7 +63,23 @@ export class EventsService {
     try {
       return {
         success: true,
-        message: await await this.eventsRepository.find(),
+        message: await this.eventsRepository.find(),
+      };
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
+  }
+
+  async findAllForUser(id: number): Promise<any> {
+    try {
+      return {
+        success: true,
+        message: await this.eventUserRepository.findBy({
+          userId: id,
+        }),
       };
     } catch (err) {
       return {

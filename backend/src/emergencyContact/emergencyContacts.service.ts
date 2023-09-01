@@ -15,7 +15,6 @@ export class EmergencyContactsService {
   ) {}
 
   async create(
-    userId: number,
     createEmergencyContactDto: CreateEmergencyContactDto,
   ): Promise<any> {
     const emergencyContact = new EmergencyContact();
@@ -30,7 +29,7 @@ export class EmergencyContactsService {
         .then((emergencyContact) => {
           const user = new User();
           user.emergencyContact = emergencyContact;
-          this.userRepository.update(userId, user);
+          this.userRepository.update(createEmergencyContactDto.userId, user);
         });
       return {
         success: true,

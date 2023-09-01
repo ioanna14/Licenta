@@ -7,11 +7,7 @@ export default defineComponent({
   components: {
     PdfForm,
   },
-  methods: {
-    exportToPDF() {
-      console.log("blaaaaa");
-    },
-  },
+  methods: {},
 })
 </script>
 

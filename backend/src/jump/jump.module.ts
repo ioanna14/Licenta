@@ -6,9 +6,10 @@ import { JumpsService } from './jumps.service';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { User } from '../user/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Jump]), JwtModule],
+  imports: [TypeOrmModule.forFeature([Jump, User]), JwtModule],
   providers: [
     JumpsService,
     {

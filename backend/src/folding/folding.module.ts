@@ -6,9 +6,11 @@ import { FoldingsService } from './foldings.service';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { Parachute } from '../parachute/parachute.entity';
+import { User } from '../user/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Folding]), JwtModule],
+  imports: [TypeOrmModule.forFeature([Folding, Parachute, User]), JwtModule],
   providers: [
     FoldingsService,
     {

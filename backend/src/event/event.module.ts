@@ -7,9 +7,10 @@ import { User } from '../user/user.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { EventUser } from './event.user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Event, User]), JwtModule],
+  imports: [TypeOrmModule.forFeature([Event, User, EventUser]), JwtModule],
   providers: [
     EventsService,
     {

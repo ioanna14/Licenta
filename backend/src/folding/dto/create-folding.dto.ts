@@ -1,4 +1,5 @@
 export class CreateFoldingDto {
-    date: Date;
-    expirationDate: Date;
+  date: Date;
+  parachute: number;
+  folder: number;
 }

@@ -3,8 +3,10 @@ import {defineComponent} from 'vue'
 import EventCard from "@/components/EventCard.vue";
 import {server} from "@/consts/appConsts";
 import axios from "axios";
+import router from "@/router";
 
 export interface Event {
+  id: number;
   title: string;
   image: string | ArrayBuffer;
   date: string;
@@ -19,6 +21,8 @@ export default defineComponent({
   data () {
     return {
       events: [] as Event[],
+      myEvents: [] as Event[],
+      id: 0,
       title: "",
       date: "",
       location: "",
@@ -26,10 +30,12 @@ export default defineComponent({
       price: 0,
       image: "",
       error: "",
+      userId: 0,
     }
   },
   mounted() {
     this.setAuthorizationKey();
+    this.setUserId();
     this.updateEvents();
   },
   methods: {
@@ -37,7 +43,21 @@ export default defineComponent({
       const value = `; ${document.cookie}`;
       const parts = value.split(`; key=`);
       const key = parts?.pop()?.split(';').shift();
-      axios.defaults.headers.common['Authorization'] =  "Bearer " + key;
+      if (key) {
+        axios.defaults.headers.common['Authorization'] =  "Bearer " + key;
+      } else {
+        router.push("/login");
+      }
+    },
+    setUserId() : void {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; user_id=`);
+      const key = parts?.pop()?.split(';').shift();
+      if (key) {
+        this.userId = +key;
+      } else {
+        router.push("/login");
+      }
     },
     updateEvents(): void {
       axios.get(`${server.baseURL}/get-events/all`).then(response => {
@@ -47,9 +67,17 @@ export default defineComponent({
           this.error = response.data.error;
         }
       });
+      axios.get(`${server.baseURL}/get-events/:id`).then(response => {
+        if (response && response.data.success) {
+          this.myEvents = response.data.message;
+        } else {
+          this.error = response.data.error;
+        }
+      });
     },
     addEvent(): void {
       const event = {
+        id: 0,
         title: this.title,
         image: this.image,
         date: this.date,
@@ -59,12 +87,17 @@ export default defineComponent({
       };
       axios.post(`${server.baseURL}/add-event`, event).then(response => {
         if (response && response.data.success) {
+          event.id = response.data.message;
           this.events.push(event);
           this.clearForm();
         } else {
           this.error = response.data.error;
         }
       });
+    },
+    joinedEvent(event: Event) {
+      console.log(event);
+      this.myEvents.push(event);
     },
     clearForm(): void {
       this.title = "";
@@ -86,12 +119,32 @@ export default defineComponent({
         <event-card
           v-for="evt in events"
           :key="evt.title"
+          :id="evt.id"
           :title="evt.title"
           :date="evt.date"
           :image="evt.image"
           :price="evt.price"
           :description="evt.description"
           :location="evt.location"
+          :canJoin="true"
+          @joinedEvent="joinedEvent($event)"
+          class="ma-10 mt-5"/>
+      </div>
+    </v-card>
+    <v-card class="d-flex-column mt-10 rounded-1 events-panel__card">
+      <v-card-title class="d-flex align-center justify-center">My Events</v-card-title>
+      <div class="d-flex">
+        <event-card
+          v-for="evt in myEvents"
+          :key="evt.title"
+          :id="evt.id"
+          :title="evt.title"
+          :date="evt.date"
+          :image="evt.image"
+          :price="evt.price"
+          :description="evt.description"
+          :location="evt.location"
+          :canJoin="false"
           class="ma-10 mt-5"/>
       </div>
     </v-card>

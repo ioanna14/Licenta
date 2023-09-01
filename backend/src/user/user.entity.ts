@@ -10,11 +10,10 @@ import {
 } from 'typeorm';
 import { EmergencyContact } from '../emergencyContact/emergencyContact.entity';
 import { License } from '../license/license.entity';
-import { Incident } from '../incident/incident.entity';
 import { Parachute } from '../parachute/parachute.entity';
 import { Jump } from '../jump/jump.entity';
-import { Dropzone } from '../dropzone/dropzone.entity';
 import { Event } from '../event/event.entity';
+import { Incident } from '../incident/incident.entity';
 
 @Entity()
 export class User {
@@ -50,15 +49,40 @@ export class User {
   @JoinColumn()
   emergencyContact: EmergencyContact;
 
-  @OneToMany(() => Jump, (jump) => jump.user)
-  jumps: Jump[];
+  @ManyToMany(
+    () => Parachute,
+    (parachute) => parachute.users, //optional
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  @JoinTable({
+    name: 'parachute_user',
+    joinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'parachuteId',
+      referencedColumnName: 'id',
+    },
+  })
+  parachutes?: Parachute[];
 
-  @ManyToMany(() => Dropzone, (dropzone) => dropzone.instructors)
-  @JoinTable()
-  dropzones: Dropzone[];
-
-  @ManyToMany(() => Event, (event) => event.participants)
-  @JoinTable()
+  @ManyToMany(
+    () => Event,
+    (event) => event.users, //optional
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  @JoinTable({
+    name: 'event_user',
+    joinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'eventId',
+      referencedColumnName: 'id',
+    },
+  })
   events: Event[];
 
   @Column({ default: true })

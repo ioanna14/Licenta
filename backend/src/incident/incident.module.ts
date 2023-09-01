@@ -6,9 +6,10 @@ import { IncidentsService } from './incidents.service';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { User } from '../user/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Incident]), JwtModule],
+  imports: [TypeOrmModule.forFeature([Incident, User]), JwtModule],
   providers: [
     IncidentsService,
     {
@@ -17,5 +18,6 @@ import { JwtModule } from '@nestjs/jwt';
     },
   ],
   controllers: [IncidentsController],
+  exports: [IncidentsService],
 })
 export class IncidentModule {}

@@ -9,22 +9,26 @@ import { IncidentModule } from './incident/incident.module';
 import { ParachuteModule } from './parachute/parachute.module';
 import { FoldingModule } from './folding/folding.module';
 import { JumpModule } from './jump/jump.module';
-import { DropzoneModule } from './dropzone/dropzone.module';
 import { EventModule } from './event/event.module';
 import { AuthModule } from './auth/auth.module';
+import { OcrModule } from './tesseract-ocr/ocr.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'mysqldb',
       port: 3306,
       username: 'root',
-      password: 'marcar14',
+      password: 'password',
       database: 'skydiving',
       // entities: [],
       autoLoadEntities: true,
       synchronize: true,
+      extra: {
+        insecureAuth: true,
+      },
+      driver: require('mysql2'), // Use the mysql2 driver
     }),
     AuthModule,
     UsersModule,
@@ -34,7 +38,6 @@ import { AuthModule } from './auth/auth.module';
     ParachuteModule,
     FoldingModule,
     JumpModule,
-    DropzoneModule,
     EventModule,
   ],
   controllers: [AppController],

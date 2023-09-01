@@ -4,7 +4,7 @@
       <go-skydiving-logo class="mt-10"/>
       <v-card-title class="mt-5" :class="{'mb-0': error, ' mb-10': !error}">LET'S GO SKYDIVING</v-card-title>
       <v-card-text class="pa-0 onboarding-form__error mb-5" v-if="error">{{error}}</v-card-text>
-      <v-form class="onboarding-form" @submit.prevent="next">
+      <v-form class="onboarding-form">
         <div class="d-flex flex-row justify-space-between">
           <div class="onboarding-form__item">
             <v-label>First Name</v-label>
@@ -101,20 +101,38 @@ export default defineComponent({
       phone: "",
       birthdate: "",
       error: "",
+      userId: 0,
     }
   },
   mounted() {
     this.setAuthorizationKey();
+    this.setUserId();
   },
   methods: {
+
     setAuthorizationKey() : void {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; key=`);
       const key = parts?.pop()?.split(';').shift();
-      axios.defaults.headers.common['Authorization'] =  "Bearer " + key;
+      if (key) {
+        axios.defaults.headers.common['Authorization'] =  "Bearer " + key;
+      } else {
+        router.push("/login");
+      }
+    },
+    setUserId() : void {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; user_id=`);
+      const key = parts?.pop()?.split(';').shift();
+      if (key) {
+        this.userId = +key;
+      } else {
+        router.push("/login");
+      }
     },
     next(): void {
       const data = {
+        userId: this.userId,
         name: this.firstName + " " + this.lastName,
         address: this.country + ", " + this.city + ", " + this.address,
         phone: this.phone,

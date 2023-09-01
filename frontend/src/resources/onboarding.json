@@ -76,26 +76,20 @@
     "request": "add-parachute",
     "options": [
       {
-        "name": "parachuteId",
+        "name": "series",
         "label": "ID",
         "type": "text",
         "placeholder": "XYZ1234567"
       },
       {
-        "name": "parachuteType",
+        "name": "type",
         "label": "Type",
         "type": "text",
         "placeholder": "Manta"
       },
       {
-        "name": "parachuteFolding",
-        "label": "Folding",
-        "type": "file",
-        "placeholder": "Upload PDF"
-      },
-      {
-        "name": "parachuteJumps",
-        "label": "Jump",
+        "name": "foldings",
+        "label": "Foldings",
         "type": "file",
         "placeholder": "Upload PDF"
       }
@@ -106,26 +100,20 @@
     "request": "add-reserve-parachute",
     "options": [
       {
-        "name": "reserveParachuteId",
+        "name": "series",
         "label": "ID",
         "type": "text",
         "placeholder": "XYZ1234567"
       },
       {
-        "name": "reserveParachuteType",
+        "name": "type",
         "label": "Type",
         "type": "text",
         "placeholder": "Manta"
       },
       {
-        "name": "reserveParachuteFolding",
-        "label": "Folding",
-        "type": "file",
-        "placeholder": "Upload PDF"
-      },
-      {
-        "name": "reserveParachuteJumps",
-        "label": "Jump",
+        "name": "foldings",
+        "label": "Foldings",
         "type": "file",
         "placeholder": "Upload PDF"
       }

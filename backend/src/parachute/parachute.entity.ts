@@ -1,31 +1,41 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {User} from "../user/user.entity";
-import {Folding} from "../folding/folding.entity";
-import {Jump} from "../jump/jump.entity";
-import {Dropzone} from "../dropzone/dropzone.entity";
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Parachute {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    type: string;
+  @Column()
+  series: string;
 
-    @Column()
-    reserveParachuteId: string;
+  @Column()
+  type: string;
 
-    @OneToMany(() => Folding, (folding) => folding.parachute)
-    @JoinColumn()
-    foldings: Folding[];
+  @Column()
+  isReserve: boolean;
 
-    @OneToOne(() => User)
-    user: User;
-
-    @OneToMany(() => Jump, (jump) => jump.parachute)
-    @JoinColumn()
-    jumps: Jump[];
-
-    @ManyToOne(() => Dropzone, (dropzone) => dropzone.parachutes)
-    dropzone: Dropzone;
+  @ManyToMany(
+    () => User,
+    (user) => user.parachutes, //optional
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  @JoinTable({
+    name: 'parachute_user',
+    joinColumn: {
+      name: 'parachuteId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+    },
+  })
+  users?: User[];
 }

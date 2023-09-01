@@ -34,56 +34,58 @@ export default defineComponent({
 </script>
 
 <template>
-<div class="d-flex panels">
-  <v-card class="map-panel mr-10">
-    <iframe
-      width="100%"
-      height="100%"
-      style="border:0"
-      loading="lazy"
-      allowfullscreen
-      referrerpolicy="no-referrer-when-downgrade"
-      :src=mapLocationPrefix+mapLocation>
-    </iframe>
-  </v-card>
-  <v-card class="dropzone-panel">
-    <v-text-field class="ma-2 mt-4 mb-4" placeholder="Search" v-model="searchDropzone" @keydown.enter.prevent="searchForDropzone()"></v-text-field>
-    <v-divider/>
-    <v-list class="dropzone-panel__list mt-2 mb-2">
-      <v-list-item v-for="dropzone in dropzones" :key="dropzone.id" class="dropzone-panel__list-item" @click="showOnMap(dropzone.name)">
-        <v-list-item-title>{{ dropzone.name }}</v-list-item-title>
-        <v-list-item-subtitle>{{ dropzone.location }}</v-list-item-subtitle>
-      </v-list-item>
-    </v-list>
-  </v-card>
-</div>
+  <div class="d-flex map-panels">
+    <v-card class="map-panels__map mr-10">
+      <iframe
+        width="100%"
+        height="100%"
+        style="border:0"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        :src=mapLocationPrefix+mapLocation>
+      </iframe>
+    </v-card>
+    <v-card class="map-panels__dropzone">
+      <v-text-field class="ma-2 mt-4 mb-4" placeholder="Search" v-model="searchDropzone" @keydown.enter.prevent="searchForDropzone()"></v-text-field>
+      <v-divider/>
+      <v-list class="map-panels__dropzone-list mt-2 mb-2">
+        <v-list-item v-for="dropzone in dropzones" :key="dropzone.id" class="map-panels__dropzone-list-item" @click="showOnMap(dropzone.name)">
+          <v-list-item-title>{{ dropzone.name }}</v-list-item-title>
+          <v-list-item-subtitle>{{ dropzone.location }}</v-list-item-subtitle>
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </div>
 </template>
 
 <style lang="scss">
-.panels {
+.map-panels {
   background-color: #eeeeee;
-}
+  max-width: 1400px;
 
-.map-panel {
-  width: 1000px !important;
-  height: 505px;
-  border: 1px solid lightgrey;
-}
-
-.dropzone-panel {
-  max-width: 400px;
-  background-color:	#F8F8FF;
-
-  &__list {
-    background-color:#F8F8FF;
-
-    &-item {
-      background-color: #F8F8FF;
-    }
+  &__map {
+    width: 1000px !important;
+    height: 500px;
+    border: 1px solid lightgrey;
   }
 
-  .v-text-field .v-input__details {
-    display: none !important;
+  &__dropzone {
+    max-width: 400px;
+    width: 100%;
+    background-color:	#F8F8FF;
+
+    &-list {
+      background-color:#F8F8FF;
+
+      &-item {
+        background-color: #F8F8FF;
+      }
+    }
+
+    .v-text-field .v-input__details {
+      display: none !important;
+    }
   }
 }
 </style>
