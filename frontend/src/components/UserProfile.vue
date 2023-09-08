@@ -91,9 +91,10 @@ export default defineComponent({
     },
     getParachutes() {
       axios.get(`${server.baseURL}/get-parachutes/${this.userId}`,).then(response => {
+        console.log("frontent response", response);
         if (response && response.data.success) {
-          // this.mainParachute = response.data.message.mainParachute;
-          // this.reserveParachute = response.data.message.reserveParachute;
+          this.mainParachute = response.data.message.mainParachute;
+          this.reserveParachute = response.data.message.reserveParachute;
         } else {
           this.error = response.data.error;
         }

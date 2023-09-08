@@ -139,7 +139,8 @@ export default defineComponent({
         birthDate: this.birthdate
       };
       axios.post(`${server.baseURL}/add-user-data`, data).then(response => {
-        if (response && response.data.success) {
+        console.log("response", response);
+        if (response && response.status === 201 && response.data.success) {
           router.push("/onboarding-skydiver");
         } else {
           this.error = response.data.error;

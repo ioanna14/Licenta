@@ -40,8 +40,8 @@ import onboardingSkydiverForm from "@/resources/onboarding.json";
 import {defineComponent} from "vue";
 import router from "@/router";
 import axios from "axios";
-import {server} from "@/consts/appConsts";
-import Tesseract from "tesseract.js";
+import { server } from "@/consts/appConsts";
+
 
 export default defineComponent({
   name: "OnboardingSkydiver",
@@ -82,21 +82,45 @@ export default defineComponent({
         router.push("/login");
       }
     },
-    next(): void {
+    async readFileAsBuffer(file: File) {
+      try {
+        return await this.readFileAsync(file);
+      } catch (error) {
+        console.error('Error reading file:', error);
+      }
+    },
+    readFileAsync(file: File): Promise<ArrayBuffer> {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+
+        fileReader.onload = (event) => {
+          const result = event.target?.result;
+          if (result instanceof ArrayBuffer) {
+            resolve(result);
+          } else {
+            reject(new Error('Failed to read file as ArrayBuffer'));
+          }
+        };
+
+        fileReader.onerror = (event) => {
+          reject(event.target?.error || new Error('Failed to read file'));
+        };
+
+        fileReader.readAsArrayBuffer(file);
+      });
+    },
+    async next() {
       this.currentFormIndex = this.currentFormIndex + 1;
-      // let foldings = null;
-      // if (this.answers && this.answers.parachuteFolding) {
-      //   foldings = this.performOcr(this.answers.parachuteFolding);
-      // }
       this.answers['userId'] =this.userId;
+      if (this.answers.foldings) {
+        this.answers.foldings = await this.readFileAsBuffer(this.answers.foldings[0]);
+      }
       axios.post(`${server.baseURL}/${this.currentForm.request}`, this.answers).then(response => {
-        console.log("response", response.data);
-        if (response && response.data.success) {
+        if (response && response.status === 201 && response.data.success) {
           if (this.currentFormIndex < 5) {
             this.currentForm = onboardingSkydiverForm[this.currentFormIndex];
             this.answers = {};
           } else {
-            console.log("nu ajunge aici???");
             router.push("/");
           }
         } else {
@@ -104,16 +128,6 @@ export default defineComponent({
         }
       });
     },
-    async performOcr(imagePath: File): Promise<string> {
-      const result = await Tesseract.recognize(
-        imagePath,
-        'eng', // Language code for English
-        {
-          logger: (info) => console.log(info),
-        },
-      );
-      return result.data.text;
-    }
   },
 });
 </script>

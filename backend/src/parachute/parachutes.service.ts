@@ -6,6 +6,8 @@ import { Parachute } from './parachute.entity';
 import * as Tesseract from 'tesseract.js';
 import { User } from '../user/user.entity';
 import { ParachuteUser } from './parachute.user.entity';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 @Injectable()
 export class ParachutesService {
@@ -25,8 +27,6 @@ export class ParachutesService {
     parachute.type = createParachuteDto.type;
     parachute.isReserve = createParachuteDto.isReserve;
     parachute.series = createParachuteDto.series;
-
-    // console.log(this.performOcr(createParachuteDto.foldings));
 
     try {
       await this.parachutesRepository
@@ -49,58 +49,71 @@ export class ParachutesService {
     }
   }
 
-  // async performOcr(imagePath: string): Promise<string> {
-  //   const result = await Tesseract.recognize(
-  //     imagePath,
-  //     'eng', // Language code for English
-  //     {
-  //       logger: (info) => console.log(info),
-  //     },
-  //   );
-  //   return result.data.text;
-  // }
+  async performOcr(fileBuffer: ArrayBuffer): Promise<string> {
+    try {
+      // Convert ArrayBuffer to Uint8Array
+      const uint8Array = new Uint8Array(fileBuffer);
+
+      // Write the Uint8Array to a temporary file
+      const tempFilePath = path.join(__dirname, 'tempfile.png');
+      await fs.writeFile(tempFilePath, uint8Array);
+
+      // Perform OCR using Tesseract.js
+      const result = await Tesseract.recognize(tempFilePath, 'eng', {
+        logger: (info) => console.log(info),
+      });
+
+      // Clean up the temporary file
+      await fs.unlink(tempFilePath);
+
+      return result.data.text;
+    } catch (error) {
+      console.error('Error performing OCR:', error);
+      throw error; // Rethrow the error for handling in your controller or service
+    }
+  }
 
   async findAll(): Promise<Parachute[]> {
     return this.parachutesRepository.find();
   }
 
   async findParachutes(userId: number): Promise<any> {
-    let mainParachute = null;
-    let reserveParachute = null;
-
     try {
-      return await this.parachuteUserRepository
-        .findBy({
-          userId: userId,
-        })
-        .then((result) => {
-          if (result) {
-            result.map(async (element) => {
-              await this.parachutesRepository
-                .findOneBy({
+      let mainParachute = null;
+      let reserveParachute = null;
+      return {
+        success: true,
+        message: await this.parachuteUserRepository
+          .findBy({
+            userId: userId,
+          })
+          .then((result) => {
+            if (result) {
+              result.map(async (element) => {
+                console.log('parachute user', element);
+                const parachute = await this.parachutesRepository.findOneBy({
                   id: element.parachuteId,
-                })
-                .then((parachute) => {
-                  if (parachute) {
-                    if (parachute.isReserve) {
-                      reserveParachute = parachute;
-                    } else {
-                      mainParachute = parachute;
-                    }
-                  }
                 });
-            });
-          }
-        })
-        .then(() => {
-          return {
-            success: {
+                if (parachute) {
+                  if (parachute.isReserve) {
+                    console.log('parachute reserve', parachute);
+                    reserveParachute = parachute;
+                  } else {
+                    console.log('parachute main', parachute);
+                    mainParachute = parachute;
+                  }
+                }
+              });
+            }
+          })
+          .finally(() => {
+            console.log('parachutes', mainParachute, reserveParachute);
+            return {
               mainParachute: mainParachute,
               reserveParachute: reserveParachute,
-            },
-            message: 'User parachutes!',
-          };
-        });
+            };
+          }),
+      };
     } catch (err) {
       return {
         success: false,

@@ -40,7 +40,16 @@ export default defineComponent({
     joinEvent(): void {
       axios.post(`${server.baseURL}/add-participant-to-event`, {userId: this.userId, eventId: this.id}).then(response => {
         if (response && response.data.success) {
-          this.$emit("joinedEvent", response.data.message);
+          const event = {
+            id: this.id,
+            title: this.title,
+            image: this.image,
+            date: this.date,
+            description: this.description,
+            price: this.price,
+            location: this.location
+          }
+          this.$emit("joinedEvent", event);
         }
       });
     }
@@ -58,7 +67,7 @@ export default defineComponent({
         <v-card-text class="pl-0">{{ description }}</v-card-text>
       </div>
       <div class="mt-5 mr-5 event-card__details-right">
-        <v-btn :v-if="this.canJoin" class="event-card__btn justify-center" color="#52b3d9" @click="joinEvent()">Join</v-btn>
+        <v-btn v-if="this.canJoin" class="event-card__btn justify-center" color="#52b3d9" @click="joinEvent()">Join</v-btn>
         <v-card-text class="pa-0 pt-4">from <b>$ {{ price }}</b></v-card-text>
         <v-card-subtitle class="pa-0 pt-4 pb-4"><v-icon icon="mdi-map-marker-outline"></v-icon> {{ location }}</v-card-subtitle>
       </div>

@@ -67,7 +67,7 @@ export default defineComponent({
           this.error = response.data.error;
         }
       });
-      axios.get(`${server.baseURL}/get-events/:id`).then(response => {
+      axios.get(`${server.baseURL}/get-events/${this.userId}`).then(response => {
         if (response && response.data.success) {
           this.myEvents = response.data.message;
         } else {

@@ -75,11 +75,35 @@ export class EventsService {
 
   async findAllForUser(id: number): Promise<any> {
     try {
+      const events = [];
       return {
         success: true,
-        message: await this.eventUserRepository.findBy({
-          userId: id,
-        }),
+        message: await this.eventUserRepository
+          .findBy({
+            userId: id,
+          })
+          .then(async (eventsUsers) => {
+            if (eventsUsers.length > 1) {
+              eventsUsers.map(async (participant) => {
+                const event = await this.eventsRepository.findOneBy({
+                  id: participant.eventId,
+                });
+                if (event) {
+                  events.push(event);
+                }
+              });
+            } else if (eventsUsers.length === 1) {
+              const event = await this.eventsRepository.findOneBy({
+                id: eventsUsers[0].eventId,
+              });
+              if (event) {
+                events.push(event);
+              }
+            }
+          })
+          .then(() => {
+            return events;
+          }),
       };
     } catch (err) {
       return {

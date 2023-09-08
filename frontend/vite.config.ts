@@ -39,4 +39,7 @@ export default defineConfig({
       host: 'localhost'
     }
   },
+  optimizeDeps: {
+    exclude: ['vuetify'],
+  },
 })
